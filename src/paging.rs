@@ -503,6 +503,8 @@ impl<P: PageAllocator, Arch: PageTableHal> PageTableInternal<P, Arch> {
         match prev_attributes {
             // entire region was mapped consistently
             RangeMappingState::Mapped(attrs) => Ok(*attrs),
+            // entire region was unmapped
+            RangeMappingState::Unmapped => Ok(MemoryAttributes::ReadProtect),
             // we only found unmapped regions, so report the entire region is unmapped
             _ => Err(PtError::NoMapping),
         }
